@@ -24,8 +24,7 @@ This project allows users to manage daily tasks directly from the terminal.
 ```bash
 python todo.py
 
-Project Structure
-Copy code
+## Project Structure
 
 python-todo-cli
 │
@@ -34,5 +33,5 @@ python-todo-cli
 └── README.md
 
 
-Author
+## Author
 Saloni Tiwar
