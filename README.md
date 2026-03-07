@@ -1,17 +1,16 @@
-# Python To-Do List CLI App
+Python To-Do List CLI App
 
-A simple command-line To-Do list application built using Python.
+A simple command-line To-Do List application built with Python.
+This program allows users to add, view, and delete tasks while saving them in a text file.
 
-This project allows users to manage daily tasks directly from the terminal.
-
-## Features
+Features
 
 - Add new tasks
 - View all tasks
 - Delete tasks
-- Save tasks to a file
+- Tasks are saved in a file
 
-## Concepts Used
+Concepts Used
 
 - Python Lists
 - Functions
@@ -19,12 +18,13 @@ This project allows users to manage daily tasks directly from the terminal.
 - Conditional Statements
 - File Handling
 
-## Run the Program
+How to Run the Program
 
-```bash
+Run the following command in the terminal:
+
 python todo.py
 
-## Project Structure
+Project Structure
 
 python-todo-cli
 │
@@ -32,6 +32,6 @@ python-todo-cli
 ├── tasks.txt
 └── README.md
 
+Author
 
-## Author
-Saloni Tiwar
+Saloni Tiwari
