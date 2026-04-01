@@ -19,7 +19,7 @@ Three versions are included:
 - GUI → Interactive interface using Tkinter
 - PRO → Advanced version with status tracking, categories, and color coding
 
-All data is stored in a file ("tasks.txt") for persistence.
+All data is stored in a file ("tasks.txt") for persistence using a unified format.
 
 ---
 
@@ -33,6 +33,7 @@ All data is stored in a file ("tasks.txt") for persistence.
 - Status tracking (Pending / Done)
 - Category management (Work, Study, Personal)
 - Color-coded task display (PRO version)
+- Auto-migration of legacy plain-text task files
 
 ---
 
@@ -49,9 +50,10 @@ All data is stored in a file ("tasks.txt") for persistence.
 
 todo-list-project/
 │
-├── todo_cli.py
+├── todo.py
 ├── todo_gui.py
 ├── todo_pro_gui.py
+├── task_storage.py
 ├── tasks.txt
 └── README.md
 
@@ -61,7 +63,7 @@ todo-list-project/
 
 🔹 CLI Version
 
-python todo_cli.py
+python todo.py
 
 🔹 GUI Version
 
@@ -70,6 +72,33 @@ python todo_gui.py
 🔹 PRO Version
 
 python todo_pro_gui.py
+
+---
+
+💾 Unified Storage Format
+
+All three versions share a single `tasks.txt` file using the format:
+
+    title|status|category
+
+Example:
+
+    Study Python|Pending|Study
+    Buy Milk|Done|Personal
+    Call doctor|Pending|Work
+
+The shared logic lives in `task_storage.py` which provides:
+- `load_tasks(path)` — reads tasks and returns a list of dicts.
+- `save_tasks(tasks, path)` — writes tasks in the unified format.
+
+🔄 Auto-Migration
+
+If `tasks.txt` was created by an older version of the app (plain text, one task per line),
+the app will automatically migrate each legacy line on load:
+
+    Buy milk  →  Buy milk|Pending|Work
+
+The next time any version saves tasks, the file is written in the new unified format.
 
 ---
 
@@ -82,7 +111,7 @@ Enter task: Study Python
 Task added successfully!
 
 2. View Tasks
-1. Study Python
+1. Study Python [Pending] (Work)
 
 PRO File Example ("tasks.txt")
 
@@ -97,7 +126,7 @@ Buy Milk|Done|Personal
 
 - Input field for task entry
 - Buttons for operations
-- Listbox to display tasks
+- Listbox shows: [status] title (category)
 
 🔹 PRO GUI
 
@@ -118,6 +147,7 @@ This project helps in learning:
 - Tkinter basics
 - Event-driven programming
 - Data structuring using dictionaries
+- Modular code design
 
 ---
 
@@ -125,9 +155,8 @@ This project helps in learning:
 
 🔹 CLI Version
 
-- Tasks stored in a list
-- Read from file at start
-- Write to file after changes
+- Tasks loaded at start via task_storage.load_tasks()
+- Written back via task_storage.save_tasks() after each change
 
 🔹 GUI Version
 

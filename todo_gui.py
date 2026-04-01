@@ -6,51 +6,36 @@
 
 import tkinter as tk
 from tkinter import messagebox
-
-# ========================================
-# Load & Save Functions
-# ========================================
-def load_tasks():
-    try:
-        with open("tasks.txt", "r") as file:
-            return file.read().splitlines()
-    except FileNotFoundError:
-        return []
-
-def save_tasks():
-    with open("tasks.txt", "w") as file:
-        for task in tasks:
-            file.write(task + "\n")
-
+from task_storage import load_tasks, save_tasks
 
 # ========================================
 # Functions
 # ========================================
 def add_task():
-    task = entry.get().strip()
+    title = entry.get().strip()
 
-    if not task:
+    if not title:
         messagebox.showerror("Error", "Task cannot be empty!")
         return
 
-    tasks.append(task)
-    save_tasks()
+    tasks.append({"title": title, "status": "Pending", "category": "Work"})
+    save_tasks(tasks)
     entry.delete(0, tk.END)
     view_tasks()
     messagebox.showinfo("Success", "Task added!")
 
 def view_tasks():
     listbox.delete(0, tk.END)
-    for i, task in enumerate(tasks, start=1):
-        listbox.insert(tk.END, f"{i}. {task}")
+    for i, t in enumerate(tasks, start=1):
+        listbox.insert(tk.END, f"{i}. [{t['status']}] {t['title']} ({t['category']})")
 
 def delete_task():
     try:
         selected = listbox.curselection()[0]
         removed = tasks.pop(selected)
-        save_tasks()
+        save_tasks(tasks)
         view_tasks()
-        messagebox.showinfo("Deleted", f"Task '{removed}' deleted!")
+        messagebox.showinfo("Deleted", f"Task '{removed['title']}' deleted!")
     except:
         messagebox.showerror("Error", "Select a task to delete!")
 

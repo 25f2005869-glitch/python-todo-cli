@@ -6,25 +6,7 @@
 
 import tkinter as tk
 from tkinter import messagebox
-
-# ========================================
-# Load & Save
-# ========================================
-def load_tasks():
-    tasks = []
-    try:
-        with open("tasks.txt", "r") as f:
-            for line in f:
-                title, status, category = line.strip().split("|")
-                tasks.append({"title": title, "status": status, "category": category})
-    except FileNotFoundError:
-        pass
-    return tasks
-
-def save_tasks():
-    with open("tasks.txt", "w") as f:
-        for t in tasks:
-            f.write(f"{t['title']}|{t['status']}|{t['category']}\n")
+from task_storage import load_tasks, save_tasks
 
 # ========================================
 # Functions
@@ -40,7 +22,7 @@ def add_task():
     task = {"title": title, "status": "Pending", "category": category}
     tasks.append(task)
 
-    save_tasks()
+    save_tasks(tasks)
     entry.delete(0, tk.END)
     view_tasks()
 
@@ -61,7 +43,7 @@ def mark_done():
     try:
         index = listbox.curselection()[0]
         tasks[index]["status"] = "Done"
-        save_tasks()
+        save_tasks(tasks)
         view_tasks()
     except:
         messagebox.showerror("Error", "Select a task!")
@@ -70,7 +52,7 @@ def delete_task():
     try:
         index = listbox.curselection()[0]
         tasks.pop(index)
-        save_tasks()
+        save_tasks(tasks)
         view_tasks()
     except:
         messagebox.showerror("Error", "Select a task!")
