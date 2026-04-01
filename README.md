@@ -1,224 +1,197 @@
-📝 To-Do List Application (CLI + GUI + PRO)
+# 📝 To‑Do List Application (CLI + GUI + PRO)
 
-A Python-based To-Do List project implemented in three versions:
+A beginner‑friendly Python To‑Do List project with **three versions**:
 
-- 💻 CLI (Command Line Interface)
-- 🖥 GUI (Tkinter Basic)
-- 🚀 GUI PRO (Advanced with Status & Categories)
+- **💻 CLI** (Command Line Interface)
+- **🖥 Basic GUI** (Tkinter)
+- **🚀 PRO GUI** (Tkinter + Status + Category)
 
----
-
-📌 Project Description
-
-This project helps users manage daily tasks efficiently.
-It allows adding, viewing, deleting, and organizing tasks.
-
-Three versions are included:
-
-- CLI → Simple terminal-based system
-- GUI → Interactive interface using Tkinter
-- PRO → Advanced version with status tracking, categories, and color coding
-
-All data is stored in a file ("tasks.txt") for persistence using a unified format.
+All versions share the **same `tasks.txt` file** for persistence.
 
 ---
 
-⚙️ Features
+## 📌 Project Description
 
-- Add new tasks
-- View all tasks
+This project helps you manage daily tasks efficiently. You can:
+
+- Add tasks
+- View tasks
 - Delete tasks
-- Persistent storage using file
-- GUI interaction (buttons, listbox)
-- Status tracking (Pending / Done)
-- Category management (Work, Study, Personal)
-- Color-coded task display (PRO version)
-- Auto-migration of legacy plain-text task files
+- (PRO) Mark tasks as Done + categorize tasks
 
 ---
 
-🛠 Technologies Used
+## ⚙️ Features
 
-- Python 3
-- Tkinter (GUI Development)
-- File Handling (read/write)
-- Lists & Dictionaries
+- ✅ Add / View / Delete tasks
+- ✅ Persistent storage using `tasks.txt`
+- ✅ GUI interaction (buttons, listbox)
+- ✅ Status tracking (**Pending / Done**) *(PRO + shared format)*
+- ✅ Categories (**Work / Study / Personal**) *(PRO + shared format)*
+- ✅ Color‑coded tasks *(PRO)*
+- ✅ **Auto‑migration** from old plain‑text task files
 
 ---
 
-📂 Project Structure
+## 🛠 Technologies Used
 
-todo-list-project/
-│
-├── todo.py
-├── todo_gui.py
-├── todo_pro_gui.py
-├── task_storage.py
-├── tasks.txt
+- **Python 3**
+- **Tkinter** (GUI)
+- **File Handling** (read/write)
+- **Lists & Dictionaries**
+- *(No external dependencies for the app itself)*
+
+---
+
+## 📂 Project Structure
+
+```text
+python-todo-cli/
+├── todo.py            # CLI app
+├── todo_gui.py        # Basic Tkinter GUI
+├── todo_pro_gui.py    # PRO Tkinter GUI (status + categories)
+├── task_storage.py    # Shared load/save + migration logic
+├── tasks.txt          # Shared data file (auto-created/updated)
 └── README.md
+```
 
 ---
 
-▶️ How to Run
+## ▶️ How to Run
 
-🔹 CLI Version
-
+### 🔹 CLI Version
+```bash
 python todo.py
+```
 
-🔹 GUI Version
-
+### 🔹 Basic GUI Version
+```bash
 python todo_gui.py
+```
 
-🔹 PRO Version
-
+### 🔹 PRO GUI Version
+```bash
 python todo_pro_gui.py
+```
 
 ---
 
-💾 Unified Storage Format
+## 💾 Unified Storage Format (`tasks.txt`)
 
-All three versions share a single `tasks.txt` file using the format:
+All three versions use a single storage format:
 
-    title|status|category
+```text
+title|status|category
+```
 
-Example:
-
-    Study Python|Pending|Study
-    Buy Milk|Done|Personal
-    Call doctor|Pending|Work
-
-The shared logic lives in `task_storage.py` which provides:
-- `load_tasks(path)` — reads tasks and returns a list of dicts.
-- `save_tasks(tasks, path)` — writes tasks in the unified format.
-
-🔄 Auto-Migration
-
-If `tasks.txt` was created by an older version of the app (plain text, one task per line),
-the app will automatically migrate each legacy line on load:
-
-    Buy milk  →  Buy milk|Pending|Work
-
-The next time any version saves tasks, the file is written in the new unified format.
-
----
-
-💻 Example
-
-CLI Example
-
-1. Add Task
-Enter task: Study Python
-Task added successfully!
-
-2. View Tasks
-1. Study Python [Pending] (Work)
-
-PRO File Example ("tasks.txt")
-
+### Example `tasks.txt`
+```text
 Study Python|Pending|Study
 Buy Milk|Done|Personal
+Call doctor|Pending|Work
+```
 
----
+The shared file logic is implemented in **`task_storage.py`**:
 
-🖥 GUI Overview
+- `load_tasks(path="tasks.txt")` — reads tasks and returns a list of dicts
+- `save_tasks(tasks, path="tasks.txt")` — writes tasks in the unified format
 
-🔹 Basic GUI
-
-- Input field for task entry
-- Buttons for operations
-- Listbox shows: [status] title (category)
-
-🔹 PRO GUI
-
-- Category dropdown
-- Status indicator (Pending / Done)
-- Color-coded tasks (Red/Green)
-- Interactive task management
-
----
-
-🎯 Learning Purpose
-
-This project helps in learning:
-
-- Python fundamentals
-- File handling (persistent storage)
-- CLI vs GUI development
-- Tkinter basics
-- Event-driven programming
-- Data structuring using dictionaries
-- Modular code design
-
----
-
-🧠 Approach / Logic
-
-🔹 CLI Version
-
-- Tasks loaded at start via task_storage.load_tasks()
-- Written back via task_storage.save_tasks() after each change
-
-🔹 GUI Version
-
-- Same logic + Tkinter interface
-- Listbox used for displaying tasks
-- Buttons trigger actions
-
-🔹 PRO Version
-
-- Tasks stored as dictionary:
-
+A task dictionary looks like:
+```python
 {"title": "Task", "status": "Pending", "category": "Work"}
-
-- File stores structured data using "|"
-- Color coding based on status
+```
 
 ---
 
-⚠️ Common Mistakes
+## 🔄 Auto‑Migration (Backward Compatibility)
 
-- ❌ Forgetting to save file after update
-- ❌ Not handling empty input
-- ❌ Index error while deleting
-- ❌ Wrong file format (especially in PRO version)
-- ❌ Not stripping newline characters
+If your `tasks.txt` was created by an older version of the app (plain text, one task per line), it will be automatically migrated **on load**.
 
----
+Legacy line:
+```text
+Buy milk
+```
 
-⚡ Complexity
+Migrated representation:
+```text
+Buy milk|Pending|Work
+```
 
-Operation| Time Complexity
-Add Task| O(1)
-View Tasks| O(n)
-Search Task| O(n)
-Delete Task| O(n)
+✅ The file is fully normalized into the new format **the next time any version saves tasks**.
 
 ---
 
-🚀 Future Improvements
+## 💻 Example Output (CLI)
 
-- Add task search functionality
-- Filter tasks by category
-- Add due date & reminders
+### Add a task
+```text
+Enter new task: Study Python
+Task added successfully!
+```
+
+### View tasks
+```text
+Your Tasks:
+1. Study Python [Pending] (Work)
+```
+
+---
+
+## 🖥 GUI Overview
+
+### 🔹 Basic GUI
+- Input field for task title
+- Buttons for add/delete
+- List display format:
+  - `[status] title (category)`
+
+### 🔹 PRO GUI
+- Category dropdown
+- Mark task as Done
+- Color coding based on status:
+  - Pending → Red
+  - Done → Green
+
+---
+
+## 🧠 How It Works (High Level)
+
+- All apps load tasks with `task_storage.load_tasks()`
+- After any change, they write back with `task_storage.save_tasks()`
+- This keeps **CLI / GUI / PRO** fully compatible with one shared `tasks.txt`
+
+---
+
+## ⚠️ Common Mistakes
+
+- Forgetting to save after updating tasks *(handled automatically in current code)*
+- Entering an empty task title
+- Selecting nothing before deleting in GUI
+- Using an incorrect file format in `tasks.txt`
+
+---
+
+## ⚡ Complexity (Big‑O)
+
+| Operation    | Time Complexity |
+|-------------|------------------|
+| Add Task    | O(1)             |
+| View Tasks  | O(n)             |
+| Delete Task | O(n)             |
+
+---
+
+## 🚀 Future Improvements (Optional Ideas)
+
+- Search tasks
+- Filter by category/status
+- Due dates & reminders
 - Dark mode UI
-- Save data using database (SQLite)
-- Mobile app version
+- Store tasks in SQLite instead of a text file
 
 ---
 
-👨‍💻 Author
+## 👨‍💻 Author
 
-Saloni Tiwari
+Saloni Tiwari  
 Python & Data Science Student
-
----
-
-📊 Project Level
-
-🟢 CLI → Beginner
-🟡 GUI → Beginner+
-🔵 PRO → Intermediate
-
----
-
-⭐ This project is ideal for beginners progressing towards real-world applications.
