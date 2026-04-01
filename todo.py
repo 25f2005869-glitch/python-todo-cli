@@ -1,11 +1,9 @@
 # To-Do List CLI App
 
-# Load tasks from file
-try:
-    with open("tasks.txt", "r") as file:
-        tasks = file.read().splitlines()
-except FileNotFoundError:
-    tasks = []
+from task_storage import load_tasks, save_tasks
+
+# Load tasks from file (auto-migrates legacy plain-text lines)
+tasks = load_tasks()
 
 def show_menu():
     print("\n===== To-Do List Menu =====")
@@ -20,38 +18,31 @@ while True:
 
     # Add Task
     if choice == "1":
-        task = input("Enter new task: ")
-        tasks.append(task)
-
-        with open("tasks.txt", "a") as file:
-            file.write(task + "\n")
-
+        title = input("Enter new task: ")
+        tasks.append({"title": title, "status": "Pending", "category": "Work"})
+        save_tasks(tasks)
         print("Task added successfully!")
 
     # View Tasks
     elif choice == "2":
         if tasks:
             print("\nYour Tasks:")
-            for i, task in enumerate(tasks, start=1):
-                print(f"{i}. {task}")
+            for i, t in enumerate(tasks, start=1):
+                print(f"{i}. {t['title']} [{t['status']}] ({t['category']})")
         else:
             print("No tasks found.")
 
     # Delete Task
     elif choice == "3":
         if tasks:
-            for i, task in enumerate(tasks, start=1):
-                print(f"{i}. {task}")
+            for i, t in enumerate(tasks, start=1):
+                print(f"{i}. {t['title']} [{t['status']}] ({t['category']})")
 
             try:
                 num = int(input("Enter task number to delete: "))
                 removed = tasks.pop(num - 1)
-
-                with open("tasks.txt", "w") as file:
-                    for task in tasks:
-                        file.write(task + "\n")
-
-                print(f"Task '{removed}' deleted.")
+                save_tasks(tasks)
+                print(f"Task '{removed['title']}' deleted.")
             except:
                 print("Invalid task number.")
         else:
